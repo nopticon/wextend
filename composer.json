@@ -1,0 +1,23 @@
+{
+    "name": "nopticon/wextend",
+    "description": "Wordpress extend native and VC widgets and more",
+    "type": "package",
+    "license": "MIT",
+    "keywords": [
+        "framework",
+        "wordpress"
+    ],
+    "authors": [
+        {
+            "name": "Guillermo Azurdia",
+            "email": "info@nopticon.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Nopticon\\Wextend\\": "src/"
+        },
+        "files": ["src/Extra.php"]
+    }
+}
