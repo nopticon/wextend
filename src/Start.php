@@ -111,7 +111,7 @@ class Start {
                     self::$vc[$name] = array(
                         'name'     => Core::text_normal($name),
                         'base'     => strtolower($name),
-                        'params'   => $class->fields(),
+                        'params'   => $class->df($class->fields()),
                         'category' => __(self::$category, 'wp-extend')
                     );
                 }

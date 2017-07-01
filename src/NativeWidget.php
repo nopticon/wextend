@@ -7,9 +7,28 @@ class NativeWidget extends \WP_Widget {
 
     function __construct($name) {
         $this->module = str_replace(__NAMESPACE__ . '\\', '', $name);
-        $this->fields = @static::fields();
+        $this->fields = $this->df(@static::fields());
 
         parent::__construct($this->module, Start::$category . ' ' . $this->module);
+    }
+
+    public function df($ary) {
+        $defaults = [
+            'type'        => 'textfield',
+            'holder'      => 'div',
+            'class'       => '',
+            'heading'     => '',
+            'param_name'  => '',
+            'value'       => '',
+            'description' => ''
+        ];
+
+        $list = [];
+        foreach ($ary as $field) {
+            $list[] = array_merge($defaults, $field);
+        }
+
+        return $list;
     }
 
     public function shortcode() {
@@ -18,7 +37,7 @@ class NativeWidget extends \WP_Widget {
     }
 
     public function vc($atts, $content = null) {
-        $fields = static::fields();
+        $fields = $this->df(static::fields());
         $widget = array();
 
         foreach ($fields as $row) {
