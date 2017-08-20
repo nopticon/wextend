@@ -23,6 +23,10 @@ class NativeWidget extends \WP_Widget {
             'description' => ''
         ];
 
+        if (!is_array($ary)) {
+            $ary = [];
+        }
+
         $list = [];
         foreach ($ary as $field) {
             $list[] = array_merge($defaults, $field);
