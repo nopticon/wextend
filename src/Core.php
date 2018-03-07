@@ -446,6 +446,8 @@ class Core {
             'exp_form'
         );
 
+        $list = apply_filters('wextend_url_whitelist', $list);
+
         self::url_whitelist($list);
     }
 
