@@ -552,7 +552,7 @@ class Core {
             return;
         }
 
-        $val = self::protocol(true, true) . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $val = self::protocol(true, true) . self::server_var('SERVER_NAME') . self::server_var('REQUEST_URI');
         self::req('>' . $http_key, $val);
 
         self::_setcookie($http_key, $val);
