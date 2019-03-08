@@ -1,5 +1,4 @@
-<?php
-namespace Nopticon\Wextend;
+<?php namespace Nopticon\Wextend;
 
 class AdminSettings {
     private $view;
@@ -8,25 +7,25 @@ class AdminSettings {
     private $capability;
     private $fields;
 
-    public function __construct() {
+    public function __construct () {
         return;
     }
 
-    public function init() {
+    public function init () {
         add_action('admin_menu', array($this, 'admin_menu'));
         add_action('admin_init', array($this, 'admin_init'));
 
         add_action('init', array($this, 'register_shortcodes'));
     }
 
-    public function set_options($view, $title, $section, $capability) {
+    public function set_options ($view, $title, $section, $capability) {
         $this->view       = $view;
         $this->title      = $title;
         $this->section    = $section;
         $this->capability = $capability;
     }
 
-    public function set_fields($list) {
+    public function set_fields ($list) {
         $this->fields = $list;
     }
 
@@ -34,7 +33,7 @@ class AdminSettings {
         return $input;
     }
 
-    public function admin_fields($append = false) {
+    public function admin_fields ($append = false) {
         $this->fields = is_array($this->fields) ? $this->fields : array();
         $fields       = $this->fields;
 
@@ -45,7 +44,7 @@ class AdminSettings {
         return $fields;
     }
 
-    public function get_shortcodes() {
+    public function get_shortcodes () {
         $fields = self::admin_fields();
 
         $shortcodes = array();
@@ -61,7 +60,7 @@ class AdminSettings {
         return $shortcodes;
     }
 
-    public function register_shortcodes() {
+    public function register_shortcodes () {
         $fields = $this->admin_fields();
 
         foreach ($fields as $section) {
@@ -74,7 +73,7 @@ class AdminSettings {
         }
     }
 
-    public function do_shortcode($atts, $ignore_html = false, $tag = '') {
+    public function do_shortcode ($atts, $ignore_html = false, $tag = '') {
         extract(shortcode_atts(array(
             //
         ), $atts));
@@ -106,7 +105,7 @@ class AdminSettings {
         return $response;
     }
 
-    public function admin_menu() {
+    public function admin_menu () {
         add_options_page(
             $this->title,
             $this->title,
@@ -116,7 +115,7 @@ class AdminSettings {
         );
     }
 
-    public function admin_init() {
+    public function admin_init () {
         $fields = $this->admin_fields();
 
         foreach ($fields as $section) {
@@ -150,29 +149,33 @@ class AdminSettings {
         return;
     }
 
-    public function settings_page() {
+    public function settings_page () {
         if (!current_user_can($this->capability))
             wp_die(__('You do not have sufficient permissions to manage options for this site.'));
 
-        echo Core::ob_read_file($this->view, array(
+        $render_vars = method_exists($this, 'render') ? $this->render() : array();
+
+        $render_vars = array_merge($render_vars, array(
             'title'   => $this->title,
             'section' => $this->section
         ));
+
+        echo Core::ob_read_file($this->view, $render_vars);
     }
 
-    public function show_input($args) {
+    public function show_input ($args) {
         $format = '<label for="%1$s"><input id="%1$s" type="text" value="%2$s" name="%1$s" /> [%3$s]</label>';
 
         return sprintf($format, $args['id'], get_option($args['id'], $args['value']), $args['alias']);
     }
 
-    public function show_textarea($args) {
+    public function show_textarea ($args) {
         $format = '<label for="%1$s"><textarea id="%1$s" name="%1$s" />%2$s</textarea> [%3$s]</label>';
 
         return sprintf($format, $args['id'], get_option($args['id'], $args['value']), $args['alias']);
     }
 
-    public function field_callback($args) {
+    public function field_callback ($args) {
         $args['alias'] = isset($args['alias']) ? $args['alias'] : (isset($args['shortcode']) ? $args['shortcode'] : $args['id']);
         $args['value'] = isset($args['value']) ? $args['value'] : '';
         $args['input'] = isset($args['input']) ? $args['input'] : 'input';
