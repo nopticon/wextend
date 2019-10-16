@@ -101,11 +101,17 @@ class Core {
     }
 
     public static function paths() {
-        return array(
+        $paths = array(
             'child'  => get_stylesheet_directory() . '/lib',
             'theme'  => get_template_directory() . '/lib',
             'module' => dirname(__FILE__)
         );
+
+        if ( $paths[ 'child' ] === $paths[ 'theme' ] ) {
+            unset( $paths[ 'child' ] );
+        }
+
+        return $paths;
     }
 
     public static function search_path($path) {
@@ -381,10 +387,6 @@ class Core {
 
     public static function default_shortcodes() {
         $list = array(
-            // 'phone'          => 'Core::sc_phone',
-            // 'format_phone'   => 'Core::sc_format_phone',
-            // 'link_phone'     => 'Core::sc_link_phone',
-            // 'referer_string' => 'Core::sc_referer_contact',
             'current_year'   => 'Core::year_shortcode',
         );
 

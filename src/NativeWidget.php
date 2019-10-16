@@ -148,7 +148,12 @@ class NativeWidget extends \WP_Widget {
     public function widget ($args, $instance) {
         foreach ($this->fields as $row) {
             $field = $row['param_name'];
-            $args[$field] = $instance[$field];
+            $value = isset( $row['value'] ) ? $row['value'] : '';
+            $args[$field] = isset($instance[$field]) ? $instance[$field] : $value;
+        }
+
+        if ( ! $args[ 'active' ] ) {
+            return;
         }
 
         // Run custom code for this widget
