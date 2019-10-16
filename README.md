@@ -1,11 +1,11 @@
 # [WExtend](https://github.com/nopticon/wextend)
 
-WExtend is a composer package that helps you to add extended support for Wordpress widgets and unify them with Visual Composer custom widgets if installed.
+WExtend helps you to extend support for Wordpress widgets and unify them with WPBakery Page Builder or Elementor custom widgets if installed.
 
 ## Features
 
-* Create native widgets
-* Integrate native widgets in Visual Composer
+* Create native widgets with Controller / View files
+* Integrate native widgets in WPBakery Page Builder or Elementor
 * Create custom admin settings pages
 * Handle parameters throughout site flow
 * Replace references to dev site for current environment

@@ -1,5 +1,4 @@
-<?php
-namespace Nopticon\Wextend;
+<?php namespace Nopticon\Wextend;
 
 class Core {
     private static $cookie     = array();
@@ -103,6 +102,7 @@ class Core {
 
     public static function paths() {
         return array(
+            'child'  => get_stylesheet_directory() . '/lib',
             'theme'  => get_template_directory() . '/lib',
             'module' => dirname(__FILE__)
         );
@@ -381,10 +381,10 @@ class Core {
 
     public static function default_shortcodes() {
         $list = array(
-            'phone'          => 'Core::sc_phone',
-            'format_phone'   => 'Core::sc_format_phone',
-            'link_phone'     => 'Core::sc_link_phone',
-            'referer_string' => 'Core::sc_referer_contact',
+            // 'phone'          => 'Core::sc_phone',
+            // 'format_phone'   => 'Core::sc_format_phone',
+            // 'link_phone'     => 'Core::sc_link_phone',
+            // 'referer_string' => 'Core::sc_referer_contact',
             'current_year'   => 'Core::year_shortcode',
         );
 
@@ -420,31 +420,7 @@ class Core {
     }
 
     public static function default_url_whitelist() {
-        $list = array(
-            'gclid',
-            'q_publisher',
-            'q_network',
-            'q_creative',
-            'q_matchtype',
-            'q_adposition',
-            'q_criteria',
-            'q_campaign',
-            'q_adgroup',
-            'q_target',
-            'q_feeditem',
-            'q_keyword',
-            'q_placement',
-            'q_device',
-            'q_devicemodel',
-            'afid',
-            'cid',
-            'src',
-            'sub_id',
-            'pub_id',
-            'landing_product',
-            'exp_landing',
-            'exp_form'
-        );
+        $list = array();
 
         $list = apply_filters('wextend_url_whitelist', $list);
 

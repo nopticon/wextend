@@ -1,5 +1,4 @@
-<?php
-namespace Nopticon\Wextend;
+<?php namespace Nopticon\Wextend;
 
 class Start {
     private static $vc_enabled = false;

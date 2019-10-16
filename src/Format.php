@@ -1,5 +1,4 @@
-<?php
-namespace Nopticon\Wextend;
+<?php namespace Nopticon\Wextend;
 
 class Format {
     private static $list   = array();

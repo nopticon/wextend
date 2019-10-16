@@ -1,18 +1,17 @@
-<?php
-namespace Nopticon\Wextend;
+<?php namespace Nopticon\Wextend;
 
 class NativeWidget extends \WP_Widget {
     protected $module;
     protected $fields;
 
-    function __construct($name) {
+    function __construct ($name) {
         $this->module = str_replace(__NAMESPACE__ . '\\', '', $name);
         $this->fields = $this->df(@static::fields());
 
         parent::__construct($this->module, Start::$category . ' ' . $this->module);
     }
 
-    public function df($ary) {
+    public function df ($ary) {
         $defaults = [
             'type'        => 'textfield',
             'holder'      => 'div',
@@ -27,7 +26,13 @@ class NativeWidget extends \WP_Widget {
             $ary = [];
         }
 
-        $list = [];
+        $list = [
+            [
+                'heading'    => __( 'Active' ),
+                'param_name' => 'active',
+                'value'      => 1,
+            ]
+        ];
         foreach ($ary as $field) {
             $list[] = array_merge($defaults, $field);
         }
@@ -35,12 +40,12 @@ class NativeWidget extends \WP_Widget {
         return $list;
     }
 
-    public function shortcode() {
+    public function shortcode () {
         $name = strtolower($this->module);
         add_shortcode($name, array($this, 'vc'));
     }
 
-    public function vc($atts, $content = null) {
+    public function vc ($atts, $content = null) {
         $fields = $this->df(static::fields());
         $widget = array();
 
@@ -53,6 +58,10 @@ class NativeWidget extends \WP_Widget {
             $info['content'] = $content;
         }
 
+        if ( ! $info[ 'active' ] ) {
+            return;
+        }
+
         // Run custom code for this widget
         if (is_callable( array($this, 'before') )) {
             $callback = $this::before($info);
@@ -60,13 +69,21 @@ class NativeWidget extends \WP_Widget {
             if (is_array($callback)) {
                 $info = $callback;
             }
+
+            if (false === $callback) {
+                return;
+            }
+
+            if ( isset( $info['dd'] ) ) {
+                dd( $info, $info['dd'] );
+            }
         }
 
         return Core::ob_read_file('widgets/views/' . $this->module, $info);
     }
 
     // Widget form creation
-    public function form($instance) {
+    public function form ($instance) {
         $tag_open  = '<p>';
         $tag_close = '</p>';
         $label     = '<label for="%s">%s</label>';
@@ -116,7 +133,7 @@ class NativeWidget extends \WP_Widget {
     }
 
     // Widget update
-    public function update($new_instance, $old_instance) {
+    public function update ($new_instance, $old_instance) {
         $instance = $old_instance;
 
         foreach ($this->fields as $row) {
@@ -128,7 +145,7 @@ class NativeWidget extends \WP_Widget {
     }
 
     // Widget display
-    public function widget($args, $instance) {
+    public function widget ($args, $instance) {
         foreach ($this->fields as $row) {
             $field = $row['param_name'];
             $args[$field] = $instance[$field];
@@ -140,6 +157,10 @@ class NativeWidget extends \WP_Widget {
 
             if (is_array($callback)) {
                 $args = $callback;
+            }
+
+            if (false === $callback) {
+                return;
             }
         }
 

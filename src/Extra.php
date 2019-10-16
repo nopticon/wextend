@@ -1,5 +1,4 @@
-<?php
-use Nopticon\Wextend\Core;
+<?php use Nopticon\Wextend\Core;
 
 function site_phone($force_number = false, $one = false) {
     if ( Core::get_phone_one() ) {
