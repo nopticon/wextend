@@ -26,13 +26,13 @@ class NativeWidget extends \WP_Widget {
             $ary = [];
         }
 
-        $list = [
-            [
-                'heading'    => __( 'Active' ),
-                'param_name' => 'active',
-                'value'      => 1,
-            ]
-        ];
+        array_unshift( $ary, [
+            'heading'    => __( 'Active' ),
+            'param_name' => 'active',
+            'value'      => 1,
+        ] );
+
+        $list = [];
         foreach ($ary as $field) {
             $list[] = array_merge($defaults, $field);
         }
