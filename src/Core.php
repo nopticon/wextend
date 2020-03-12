@@ -616,7 +616,7 @@ class Core {
         return sprintf($format, $one_tel, $class, $prev_text . $text . $next_text);
     }
 
-    public static function sc_referer_contact(){
+    public static function sc_referer_contact() {
         return (strpos(wp_get_referer(), 'calling') !== false) ? 'calling' : 'email';
     }
 
@@ -626,7 +626,7 @@ class Core {
 
     public static function camel_normal($str) {
         $matches = preg_split('/(?<=[a-z])(?=[A-Z])/x', $str);
-        return implode($matches, ' ');
+        return implode(' ', $matches);
     }
 
     public static function strip_phone($str) {
